@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vote</title>
+</head>
+<body>
+    <h2>Welcome {{ voter_id }}</h2>
+    <h3>Cast Your Vote</h3>
+
+    <form method="POST">
+        <label>Select Party:</label>
+        <select name="party" required>
+            <option value="Party A">Party A</option>
+            <option value="Party B">Party B</option>
+            <option value="Party C">Party C</option>
+        </select>
+        <br><br>
+        <button type="submit">Submit Vote</button>
+    </form>
+
+    <a href="/logout">Logout</a>
+</body>
+</html>

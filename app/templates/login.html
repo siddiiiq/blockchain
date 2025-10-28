@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<center>
+  <h2>Voter Login</h2>
+  <form action="/login" method="POST">
+    <table>
+      <tr>
+        <td><label>Voter ID:</label></td>
+        <td><input type="text" name="voter_id" placeholder="VOID001" required></td>
+      </tr>
+      <tr>
+        <td><label>Password:</label></td>
+        <td><input type="password" name="password" required></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><input type="submit" value="Login"></td>
+      </tr>
+    </table>
+  </form>
+</center>
+{% endblock %}

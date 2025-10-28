@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<center>
+  <h2>🧠 AI Fraud Detection Dashboard</h2>
+  <hr>
+
+  {% if fraud_attempts %}
+  <table border="1" cellpadding="8" style="width: 80%; text-align: center;">
+    <tr style="background-color: #f2f2f2;">
+      <th>Voter ID</th>
+      <th>IP Address</th>
+      <th>Time</th>
+      <th>Reason</th>
+    </tr>
+    {% for attempt in fraud_attempts %}
+    <tr>
+      <td>{{ attempt.voter_id }}</td>
+      <td>{{ attempt.ip_address }}</td>
+      <td>{{ attempt.timestamp }}</td>
+      <td>{{ attempt.reason }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+  <p>No suspicious activity detected yet ✅</p>
+  {% endif %}
+</center>
+{% endblock %}
