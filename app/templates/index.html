@@ -1,146 +1,345 @@
-<!-- extend base layout -->
 {% extends "base.html" %}
 
 {% block content %}
-<br>
+<style>
+  /* 🎥 Video Banner */
+  .video-section {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    overflow: hidden;
+    border-bottom: 3px solid rgba(255,255,255,0.3);
+  }
 
-<!-- Login / Logout Info -->
+  .video-section video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.7) contrast(1.1);
+  }
+
+  /* 🇮🇳 Background Animation (Tricolor + futuristic gradient) */
+  body {
+    background: linear-gradient(135deg, #FF9933, #FFFFFF, #138808);
+    background-size: 400% 400%;
+    animation: gradientShift 10s ease infinite;
+    font-family: 'Poppins', sans-serif;
+    color: #111;
+    margin: 0;
+    padding: 0;
+  }
+
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* 🧠 Hero Section */
+  .banner {
+    text-align: center;
+    margin-top: 40px;
+    position: relative;
+    animation: fadeIn 1s ease-in-out;
+  }
+
+  .banner h1 {
+    font-size: 2.6rem;
+    font-weight: bold;
+    color: #1a1a1a;
+    text-shadow: 0px 2px 6px rgba(0,0,0,0.2);
+    letter-spacing: 1px;
+  }
+
+  /* 🟣 Rotating Thanos Image */
+  .thanos-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-top: 20px;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .thanos-img {
+    width: 140px;
+    border-radius: 50%;
+    border: 4px solid #6a11cb;
+    animation: spin 10s linear infinite;
+    box-shadow: 0px 0px 20px rgba(106,17,203,0.6);
+  }
+
+  /* ❌ Cross Overlay */
+  .cross-mark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    color: #ff3b3b;
+    font-size: 110px;
+    font-weight: bold;
+    opacity: 0.8;
+    pointer-events: none;
+    text-shadow: 0 0 15px rgba(255,0,0,0.7);
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ⚙️ Blockchain Emphasis */
+  .blockchain-badge {
+    margin-top: 25px;
+    background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
+    color: #00f5d4;
+    padding: 10px 25px;
+    border-radius: 20px;
+    display: inline-block;
+    box-shadow: 0 0 15px rgba(0,255,255,0.3);
+    font-weight: bold;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% { box-shadow: 0 0 10px rgba(0,255,255,0.3); }
+    50% { box-shadow: 0 0 25px rgba(0,255,255,0.7); }
+    100% { box-shadow: 0 0 10px rgba(0,255,255,0.3); }
+  }
+
+  /* 🔹 Buttons */
+  button, input[type="submit"] {
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    border: none;
+    color: white;
+    padding: 10px 22px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.3s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  }
+
+  button:hover, input[type="submit"]:hover {
+    transform: scale(1.07);
+    background: linear-gradient(90deg, #f12711, #f5af19);
+  }
+
+  /* 🧾 Table Styling */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin-top: 20px;
+  }
+
+  th {
+    background: linear-gradient(90deg, #ff9933, #ffffff, #138808);
+    padding: 10px;
+    text-align: center;
+    color: #000;
+    font-weight: bold;
+  }
+
+  td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+  }
+
+  tr:hover {
+    background: rgba(0,0,0,0.05);
+  }
+
+  /* ⚡ Layout Panels */
+  .left-panel { float: left; width: 65%; padding: 20px; }
+  .right-panel { float: right; width: 30%; padding: 20px; }
+  .footer-btns { text-align: center; margin: 25px 0; }
+
+  h2 { color: #0c2461; text-shadow: 1px 1px rgba(255,255,255,0.5); }
+
+  .glow { animation: glow 2s infinite alternate; }
+
+  @keyframes glow {
+    0% { box-shadow: 0 0 5px #ff9933, 0 0 10px #138808; }
+    50% { box-shadow: 0 0 25px #0ff, 0 0 50px #0c2461; }
+    100% { box-shadow: 0 0 5px #ff9933, 0 0 10px #138808; }
+  }
+
+  /* 🎵 Mute Button Glow */
+  #music-toggle.active {
+    box-shadow: 0 0 20px rgba(0,255,255,0.7), 0 0 40px rgba(0,255,255,0.4);
+    animation: pulse 2s infinite;
+  }
+</style>
+
+<!-- 🎥 Top Video Banner -->
+<div class="video-section">
+  <video autoplay muted loop playsinline>
+    <source src="{{ url_for('static', filename='faces/video-output-3B3DF2BB-752C-47D7-A597-EA2C3573EDBC-1.MP4') }}" type="video/mp4">
+  </video>
+</div>
+
+<!-- 🧠 HEADER + THANOS -->
+<div class="banner">
+  <h1>🇮🇳 Secure Blockchain Voting Portal</h1>
+
+  <div class="thanos-wrapper">
+    <img src="{{ url_for('static', filename='faces/IMG_9598.jpg') }}" alt="Thanos" class="thanos-img">
+    <div class="cross-mark">✖️</div>
+  </div>
+
+  <div class="blockchain-badge">🔗 Powered by Blockchain Technology</div>
+</div>
+
+<br>
 <center>
   {% if session.voter_id %}
-    <p>Logged in as: <b>{{ session.voter_id }}</b></p>
+    <p>🗳️ Logged in as: <b>{{ session.voter_id }}</b></p>
     <a href="/logout"><button>Logout</button></a>
   {% else %}
     <a href="/login"><button>Login</button></a>
   {% endif %}
-
-  <!-- Security Notice -->
-  <p style="color: gray; font-size: 14px; margin-top: 10px;">
-    🔒 Voter registration is closed. Only authorized voters can log in and vote.
-  </p>
+  <p style="color:gray;font-size:14px;">🔒 Voter registration closed – authorized voters only.</p>
 </center>
+
 <hr>
 
-<div style="width:100%">
-  <div style="float: left; width: 70%; height: 200px;">
-    {% if session.voter_id %}
-    <!-- Voting form (only visible if logged in) -->
-    <form action="/submit" id="textform" method="post">
-      <table style="width:70%; float: right;">
-        <tr>
-          <td><label>Select Political party to vote</label></td>
-          <td>
-            <select name="party" required>
-              <option value="">select</option>
-              {% for political_partie in political_parties %}
-              <option value="{{political_partie}}">{{political_partie}}</option>
-              {% endfor %}
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td><label>Your Voter ID</label></td>
-          <td>
-            <!-- Automatically filled with the logged-in voter's ID -->
-            <input type="text" name="voter_id" value="{{ session.voter_id }}" readonly>
-          </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><input type="submit" value="Vote"></td>
-        </tr>
-      </table>
-    </form>
-    {% else %}
-    <center>
-      <p style="color:red;"><b>Please log in to vote.</b></p>
-      <a href="/login"><button>Login to Continue</button></a>
-    </center>
-    {% endif %}
-  </div>
-
-  <div style="float:right; width: 30%; height: 200px; overflow-y:auto;">
-    <table style="width:40%; float: right;">
-      <tr><th>Sample Voter ID</th></tr>
-      {% for voter_id in voter_ids %}
-      <tr><td>{{voter_id}}</td></tr>
-      {% endfor %}
+<!-- 🧭 VOTING SECTION -->
+<div class="left-panel">
+  {% if session.voter_id %}
+  <form action="/submit" id="textform" method="post" class="glow">
+    <table>
+      <tr>
+        <td><b>Select Political Party</b></td>
+        <td>
+          <select name="party" required>
+            <option value="">-- Choose Party --</option>
+            {% for political_partie in political_parties %}
+            <option value="{{ political_partie }}">{{ political_partie }}</option>
+            {% endfor %}
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td><b>Your Voter ID</b></td>
+        <td><input type="text" name="voter_id" value="{{ session.voter_id }}" readonly></td>
+      </tr>
+      <tr>
+        <td colspan="2"><input type="submit" value="🗳️ Cast Vote"></td>
+      </tr>
     </table>
-  </div>
+  </form>
+  {% else %}
+  <center>
+    <p style="color:red;"><b>Please log in to vote.</b></p>
+    <a href="/login"><button>Login to Continue</button></a>
+  </center>
+  {% endif %}
 </div>
 
-<br>
+<div class="right-panel">
+  <h3>📋 Sample Voter IDs</h3>
+  <table>
+    <tr><th>Voter ID</th></tr>
+    {% for voter_id in voter_ids %}
+    <tr><td>{{ voter_id }}</td></tr>
+    {% endfor %}
+  </table>
+</div>
+
+<div style="clear:both;"></div>
+
 <hr>
 
-<center>
-  <a href="{{node_address}}/mine" target="_blank"><button>Request to mine</button></a>
-  <a href="/"><button>Resync</button></a>
-  <a href="{{node_address}}/chain" target="_blank"><button>View Chain</button></a>
-</center>
+<div class="footer-btns">
+  <a href="{{node_address}}/mine" target="_blank"><button>⚙️ Request to Mine</button></a>
+  <a href="/"><button>🔄 Resync</button></a>
+  <a href="{{node_address}}/chain" target="_blank"><button>⛓️ View Chain</button></a>
+</div>
 
 <hr>
 
 <div style="margin: 20px;">
-  <div class="col-md-6">
-    <h2>Result Detail</h2>
-    <table>
-      <tr>
-        <th>Voter ID</th>
-        <th>Political Party Name</th>
-        <th>Voted Time</th>
-      </tr>
-      {% for post in posts %}
-      <tr>
-        <td>{{post.voter_id}}</td>
-        <td>{{post.party}}</td>
-        <td>{{readable_time(post.timestamp)}}</td>
-      </tr>
-      {% endfor %}
-    </table>
-  </div>
+  <h2>📊 Result Details</h2>
+  <table>
+    <tr><th>Voter ID</th><th>Political Party</th><th>Voted Time</th></tr>
+    {% for post in posts %}
+    <tr>
+      <td>{{ post.voter_id }}</td>
+      <td>{{ post.party }}</td>
+      <td>{{ readable_time(post.timestamp) }}</td>
+    </tr>
+    {% endfor %}
+  </table>
 
-  <div class="col-md-4" style="margin-left: 10px;">
-    <h2>Result Summary</h2>
-    <table>
-      <tr>
-        <th width="25%">Political Party Name</th>
-        <th width="25%">Total vote gain</th>
-      </tr>
-      {% for p in political_parties %}
-      <tr>
-        <td>{{p}}</td>
-        <td>{{vote_gain.count(p)}}</td>
-      </tr>
-      {% endfor %}
-    </table>
-  </div>
-
-  <style>
-    table {
-      font-family: arial, sans-serif;
-      border-collapse: collapse;
-      width: 100%;
-    }
-
-    td, th {
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 8px;
-    }
-
-    .col-md-4 {
-      float: left;
-      width: 33.33333333%;
-    }
-
-    .col-md-2 {
-      float: left;
-      width: 16.33333333%;
-    }
-
-    .col-md-6 {
-      float: left;
-      width: 60.33333333%;
-    }
-  </style>
+  <h2>🏆 Result Summary</h2>
+  <table>
+    <tr><th>Party Name</th><th>Total Votes</th></tr>
+    {% for p in political_parties %}
+    <tr><td>{{ p }}</td><td>{{ vote_gain.count(p) }}</td></tr>
+    {% endfor %}
+  </table>
 </div>
+
+<!-- 🎵 Background Music -->
+<audio id="bg-music" autoplay loop>
+  <source src="{{ url_for('static', filename='faces/spiderman_theme.mp3') }}" type="audio/mpeg">
+</audio>
+
+<!-- 🔊 Mute / Unmute Button -->
+<button id="music-toggle" style="
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  border: none;
+  background: linear-gradient(90deg, #6a11cb, #2575fc);
+  color: white;
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  font-size: 20px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  cursor: pointer;
+  transition: 0.3s;
+">🔇</button>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const music = document.getElementById("bg-music");
+  const toggle = document.getElementById("music-toggle");
+
+  music.volume = 0.4;
+  music.muted = true;
+  music.play().then(() => {
+    setTimeout(() => {
+      music.muted = false;
+      toggle.textContent = "🔊";
+      toggle.classList.add("active");
+    }, 500);
+  }).catch(() => console.log("Autoplay blocked"));
+
+  toggle.onclick = () => {
+    music.muted = !music.muted;
+    toggle.textContent = music.muted ? "🔇" : "🔊";
+    toggle.classList.toggle("active", !music.muted);
+  };
+});
+</script>
+
 {% endblock %}

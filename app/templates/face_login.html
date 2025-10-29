@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<center>
+  <h2>Face Recognition Login</h2>
+  <video id="video" width="480" height="360" autoplay></video>
+  <br><br>
+  <button id="captureBtn">Login with Face</button>
+  <p id="status" style="font-weight:bold;"></p>
+  <canvas id="canvas" width="480" height="360" style="display:none;"></canvas>
+</center>
+
+<script>
+const video = document.getElementById('video');
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const status = document.getElementById('status');
+const btn = document.getElementById('captureBtn');
+
+navigator.mediaDevices.getUserMedia({ video: true })
+  .then(stream => { video.srcObject = stream; })
+  .catch(err => { status.innerText = "Camera access denied or not available."; console.error(err); });
+
+btn.addEventListener('click', async () => {
+  status.innerText = "⏳ Capturing... please hold still";
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+  canvas.toBlob(async (blob) => {
+    const fd = new FormData();
+    fd.append('image', blob, 'snapshot.jpg');
+
+    try {
+      const res = await fetch('/verify_face', { method: 'POST', body: fd });
+      const data = await res.json();
+      if (data.status === 'success') {
+        status.innerText = `✅ Face recognized: ${data.voter_id}. Redirecting...`;
+        setTimeout(() => window.location.href = "/", 900);
+      } else {
+        status.innerText = `❌ ${data.message}`;
+      }
+    } catch (e) {
+      status.innerText = '⚠️ Server error during verification.';
+      console.error(e);
+    }
+  }, 'image/jpeg', 0.9);
+});
+</script>
+{% endblock %}

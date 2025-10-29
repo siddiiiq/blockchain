@@ -1,8 +1,181 @@
 {% extends "base.html" %}
 
 {% block content %}
-<center>
-  <h2>Voter Login</h2>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #ff9933, #ffffff, #138808);
+    background-size: 400% 400%;
+    animation: bgShift 12s ease infinite;
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+  }
+
+  @keyframes bgShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .login-container {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    padding: 40px 50px;
+    width: 420px;
+    margin: 80px auto;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    animation: fadeIn 1.2s ease-in-out;
+  }
+
+  .login-container::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,153,51,0.2), rgba(19,136,8,0.2), transparent 70%);
+    animation: rotateGlow 12s linear infinite;
+    z-index: 0;
+  }
+
+  @keyframes rotateGlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .login-container * {
+    position: relative;
+    z-index: 2;
+  }
+
+  h2 {
+    color: #0b3d91;
+    font-weight: 700;
+    margin-bottom: 25px;
+    animation: glowText 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes glowText {
+    from { text-shadow: 0 0 5px #0b3d91, 0 0 10px #00f; }
+    to { text-shadow: 0 0 20px #138808, 0 0 40px #ff9933; }
+  }
+
+  table {
+    width: 100%;
+  }
+
+  label {
+    font-weight: 600;
+    color: #333;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    outline: none;
+    transition: 0.3s;
+  }
+
+  input[type="text"]:focus,
+  input[type="password"]:focus {
+    border-color: #0b3d91;
+    box-shadow: 0 0 8px rgba(11,61,145,0.4);
+  }
+
+  input[type="submit"] {
+    background: linear-gradient(90deg, #ff9933, #138808);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+    font-weight: 600;
+    font-size: 16px;
+    margin-top: 15px;
+  }
+
+  input[type="submit"]:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(19,136,8,0.5);
+  }
+
+  hr {
+    margin: 30px 0;
+    border: 0;
+    border-top: 2px solid #ccc;
+  }
+
+  .face-btn {
+    background: linear-gradient(90deg, #0b3d91, #6c63ff);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+    font-weight: 600;
+    font-size: 16px;
+  }
+
+  .face-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(108,99,255,0.5);
+  }
+
+  .thanos-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    box-shadow: 0 0 25px rgba(255,255,255,0.3);
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  p {
+    color: #444;
+    font-weight: 500;
+  }
+
+  /* 🔊 Subtle pulsing glow around container */
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(255,153,51,0.4), 0 0 40px rgba(19,136,8,0.4); }
+    50% { box-shadow: 0 0 30px rgba(255,255,255,0.8), 0 0 50px rgba(0,0,255,0.3); }
+  }
+  .login-container {
+    animation: fadeIn 1s ease-in-out, pulse 6s infinite alternate;
+  }
+
+</style>
+
+<!-- 🎵 Background Music (auto-play Avengers theme) -->
+<audio autoplay loop>
+  <source src="{{ url_for('static', filename='faces/The Avengers.mp3') }}" type="audio/mpeg">
+</audio>
+
+<div class="login-container">
+  <img src="{{ url_for('static', filename='faces/IMG_9598.jpg') }}" alt="Thanos" class="thanos-img">
+  <h2>🗳️ Voter Login Portal</h2>
   <form action="/login" method="POST">
     <table>
       <tr>
@@ -11,13 +184,30 @@
       </tr>
       <tr>
         <td><label>Password:</label></td>
-        <td><input type="password" name="password" required></td>
+        <td><input type="password" name="password" placeholder="Enter password" required></td>
       </tr>
       <tr>
-        <td></td>
-        <td><input type="submit" value="Login"></td>
+        <td colspan="2" style="text-align:center;">
+          <input type="submit" value="Login">
+        </td>
       </tr>
     </table>
   </form>
-</center>
+
+  <hr>
+
+  <p>Or use Face Recognition:</p>
+  <a href="/face_login"><button class="face-btn">👁️ Login with Face Recognition</button></a>
+</div>
+
+<script>
+  // 🕶️ Smooth fade-in of audio
+  const audio = document.querySelector('audio');
+  audio.volume = 0.3;
+  let fadeIn = setInterval(() => {
+    if (audio.volume < 1.0) audio.volume += 0.02;
+    else clearInterval(fadeIn);
+  }, 200);
+</script>
+
 {% endblock %}

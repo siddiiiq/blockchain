@@ -1,12 +1,133 @@
 {% extends "base.html" %}
 {% block content %}
+
+<style>
+  /* 🧠 Cyberpunk Hacker Theme */
+  body {
+    background-color: #000;
+    color: #00ff99;
+    font-family: 'Courier New', monospace;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  h2 {
+    color: #00ff99;
+    text-shadow: 0 0 10px #00ff99, 0 0 20px #00ff99;
+    margin-top: 30px;
+    font-size: 2rem;
+    letter-spacing: 1px;
+    animation: flicker 2s infinite alternate;
+  }
+
+  @keyframes flicker {
+    0% { opacity: 1; }
+    50% { opacity: 0.85; }
+    100% { opacity: 1; }
+  }
+
+  hr {
+    border: none;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00ff99, transparent);
+    margin: 15px 0 25px 0;
+  }
+
+  /* 🧮 Table Style */
+  table {
+    width: 80%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    box-shadow: 0 0 25px rgba(0, 255, 153, 0.4);
+    border: 1px solid #00ff99;
+    background: rgba(0, 20, 0, 0.9);
+    border-radius: 10px;
+    overflow: hidden;
+    animation: glowPulse 3s infinite ease-in-out;
+  }
+
+  th, td {
+    padding: 12px;
+    border-bottom: 1px solid #00ff99;
+  }
+
+  th {
+    background-color: #001a0a;
+    color: #00ffcc;
+    text-shadow: 0 0 8px #00ffcc;
+  }
+
+  td {
+    color: #00ff99;
+  }
+
+  tr:hover {
+    background-color: rgba(0, 255, 153, 0.1);
+    transition: 0.2s;
+  }
+
+  @keyframes glowPulse {
+    0% { box-shadow: 0 0 15px rgba(0,255,153,0.3); }
+    50% { box-shadow: 0 0 30px rgba(0,255,153,0.7); }
+    100% { box-shadow: 0 0 15px rgba(0,255,153,0.3); }
+  }
+
+  /* ✅ No Data Message */
+  p {
+    color: #00ff99;
+    font-size: 1.2rem;
+    margin-top: 40px;
+    text-shadow: 0 0 10px #00ff99;
+  }
+
+  /* 🕶️ Scroll Glow */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #00ff99;
+    border-radius: 10px;
+  }
+
+  ::selection {
+    background: #00ff99;
+    color: black;
+  }
+
+  /* 🖥️ Matrix Background Animation */
+  .matrix-bg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(0,255,0,0.05),
+      rgba(0,255,0,0.1) 2px,
+      transparent 3px
+    );
+    pointer-events: none;
+    animation: rain 0.5s linear infinite;
+    z-index: -1;
+  }
+
+  @keyframes rain {
+    from { background-position-y: 0; }
+    to { background-position-y: 100%; }
+  }
+</style>
+
+<div class="matrix-bg"></div>
+
 <center>
   <h2>🧠 AI Fraud Detection Dashboard</h2>
   <hr>
 
   {% if fraud_attempts %}
-  <table border="1" cellpadding="8" style="width: 80%; text-align: center;">
-    <tr style="background-color: #f2f2f2;">
+  <table>
+    <tr>
       <th>Voter ID</th>
       <th>IP Address</th>
       <th>Time</th>
@@ -17,7 +138,7 @@
       <td>{{ attempt.voter_id }}</td>
       <td>{{ attempt.ip_address }}</td>
       <td>{{ attempt.timestamp }}</td>
-      <td>{{ attempt.reason }}</td>
+      <td style="color:#ff3333;">{{ attempt.reason }}</td>
     </tr>
     {% endfor %}
   </table>
@@ -25,4 +146,5 @@
   <p>No suspicious activity detected yet ✅</p>
   {% endif %}
 </center>
+
 {% endblock %}
